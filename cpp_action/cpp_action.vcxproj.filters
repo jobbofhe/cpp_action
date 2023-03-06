@@ -21,6 +21,9 @@
     <ClInclude Include="src\vector\vector_test_base.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\return_value\return_value.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
