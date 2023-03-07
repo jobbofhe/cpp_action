@@ -36,7 +36,6 @@ TestString ReturnTestString() {
 	TestString test_string("Task TestString");
 	std::cout << "ReturnTestString End..." << std::endl;
 	return test_string;
-	
 }
 
 
@@ -62,37 +61,35 @@ public:
 		std::cout << "TestCharPointor: Destructor..." << std::endl;
 	}
 private:
-	const char*  str_;
+	const char* str_;
 };
 
 TestCharPointor ReturnTestCharPointor() {
 	TestCharPointor test_string("Task TestCharPointor");
-	std::cout << "ReturnTestCharPointor End..." << std::endl;
 	return test_string;
-
 }
 
 void ReturnValueTest_Test() {
 	// string
 	{
-		StartEndLine line("ReturnTestString().GetString()");
+		StartEndLine line("ReturnTestString - 1");
 		std::cout << "test_string------------: " << ReturnTestString().GetString() << std::endl;
 	}
 	{
-		StartEndLine line("test_string.GetString()");
+		StartEndLine line("ReturnTestString - 2");
 		TestString test_string = ReturnTestString();
 		std::cout << "test_string------------: " << test_string.GetString() << std::endl;
 	}
 
 	// char *
 	{
-		StartEndLine line("ReturnTestCharPointor().GetString()");
+		StartEndLine line("ReturnTestCharPointor - 1");
 		std::cout << "test_string============: " << ReturnTestCharPointor().GetString() << std::endl;
 	}
 	{
-		StartEndLine line("test_string.GetString()");
-		TestCharPointor test_string = ReturnTestCharPointor();
-		std::cout << "test_string============: " << test_string.GetString() << std::endl;
+		StartEndLine line("ReturnTestCharPointor - 2");
+		TestCharPointor test_char = ReturnTestCharPointor();
+		std::cout << "test_char============[" << test_char.GetString() << "]" << std::endl;
 	}
 }
 

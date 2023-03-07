@@ -1,7 +1,10 @@
 #ifndef BASE_H_
+#define BASE_H_
 
 #include <iostream>
 #include <chrono>
+#include <vector>
+#include <string>
 
 class TimeDuration {
 public:

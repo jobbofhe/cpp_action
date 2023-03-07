@@ -2,6 +2,7 @@
 
 #include "vector/vector_test_base.h"
 #include "return_value/return_value.h"
+#include "move/move.h"
 
 int main() {
 	{
@@ -9,5 +10,8 @@ int main() {
 	}
 	{
 		ReturnValueTest_Test();
+	}
+	{
+		MoveTest();
 	}
 }
