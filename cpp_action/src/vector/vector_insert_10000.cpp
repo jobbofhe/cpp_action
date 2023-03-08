@@ -96,5 +96,5 @@ void VectorTest() {
 	// [Task] : Vector insert 10000 number 1[Time cost] : 58 / ms
 	// [Task] : Vector insert 10000 number 2 reserve : [Time cost] : 105 / ms
 	// [Task] : Vector insert 10000 number 3 emplace_back : [Time cost] : 129 / ms
-	// TODO(shuqiang)
+	// TODO
 }

@@ -9,13 +9,13 @@ int main() {
 	//{
 	//	VectorTest();	
 	//}
+	{
+		ReturnValueTest_Test();
+	}
 	//{
-	//	ReturnValueTest_Test();
+	//	MoveTest();
 	//}
-	{
-		MoveTest();
-	}
-	{
-		RightValueTest();
-	}
+	//{
+	//	RightValueTest();
+	//}
 }
