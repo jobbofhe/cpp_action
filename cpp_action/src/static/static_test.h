@@ -42,7 +42,7 @@ public:
 private:
 	// CORE
 	TestSingleton() {}
-	// 阻止 copy
+	// 阻止 copy, 将构造函数和赋值构造函数，设置为 private 成员可以阻止拷贝
 	TestSingleton(const TestSingleton&);
 	TestSingleton& operator=(const TestSingleton&);
 
@@ -64,8 +64,10 @@ void TestSingletonInit() {
 	inst->Print();
 
 	inst->DeleteTestSingleton();
+}
 
-	inst->Print();
+void TestMultiThreadsAccess() {
+// TODO
 }
 
 void StaticTest() {
