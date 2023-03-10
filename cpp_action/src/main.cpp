@@ -5,6 +5,7 @@
 #include "move/move.h"
 #include "move/r_value.h"
 #include "static/static_test.h"
+#include "design_pattern/singleton.h"
 
 int main() {
 	//{
@@ -21,5 +22,8 @@ int main() {
 	//}
 	{
 		StaticTest();
+	}
+	{
+		DesignTestSingle();
 	}
 }

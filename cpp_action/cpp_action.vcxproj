@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\base.h" />
+    <ClInclude Include="src\design_pattern\singleton.h" />
     <ClInclude Include="src\move\move.h" />
     <ClInclude Include="src\move\r_value.h" />
     <ClInclude Include="src\return_value\return_value.h" />
     <ClInclude Include="src\static\static_test.h" />
+    <ClInclude Include="src\threads\multi_threads.h" />
     <ClInclude Include="src\vector\vector_test_base.h" />
   </ItemGroup>
   <ItemGroup>

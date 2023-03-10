@@ -30,6 +30,15 @@
     <ClInclude Include="src\move\r_value.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\static\static_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\threads\multi_threads.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\design_pattern\singleton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
