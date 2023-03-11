@@ -6,6 +6,7 @@
 #include "move/r_value.h"
 #include "static/static_test.h"
 #include "design_pattern/singleton.h"
+#include "threads/multi_threads.h"
 
 int main() {
 	//{
@@ -25,5 +26,8 @@ int main() {
 	}
 	{
 		DesignTestSingle();
+	}
+	{
+		MultiThreadTest();
 	}
 }
