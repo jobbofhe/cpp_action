@@ -1,3 +1,6 @@
+﻿#ifndef MOVE_MOVE_H_
+#define MOVE_MOVE_H_
+
 #include <iostream>
 #include "base.h"
 
@@ -26,11 +29,11 @@ static void MoveConstString() {
 	std::cout << "src_str: [" << src_str << "]" <<  std::endl;
 	std::cout << "dst_str: [" << dst_str << "]" << std::endl;
 
-	//before move : &src_str : [000000591696F7E8]
-	//& src_str : [000000591696F7E8]
-	//& dst_str : [000000591696F828]
-	//src_str : []
-	//dst_str : [Hello Xuxing...]
+	// //before move : &src_str : [000000591696F7E8]
+	// //& src_str : [000000591696F7E8]
+	// //& dst_str : [000000591696F828]
+	// //src_str : []
+	// //dst_str : [Hello Xuxing...]
 	// move 的功能就是，将原来的内存的所有者进行转移。原来的所有者在 move 之后不在拥有当前内存。
 }
 
@@ -75,10 +78,10 @@ void MoveStringPerfTest() {
 
 // 3. 
 // CORE
-// 在函数内部的形参，即使它被声明为右值引用类型，并被绑定一个右值引用类型的实参，但它本身仍然是左值，
+// 在函数内部的形参，即使它被声明为右值引用类型，并被绑定一个右值引用类型的实参，但它本身仍然是左值
 // 无法由它触发移动XX函数，除非对它再次使用move函数或者forward函数。因此，如果你在移动构造函数里
 // 面想要再次触发移动语义，那么就必须放在move里用，比如移动构造函数的入参对象里面有个string类型的成
-// 员变量，想移动到*this对象的对应string成员变量，就得包在move里面；
+// 员变量，想移动到*this对象的对应string成员变量，就得包在move里面
 
 void DefineRightRef() {
 	std::string str = "DefineRightRef";
@@ -112,3 +115,5 @@ void MoveTest() {
 	// 3.
 	DefineRightRef();
 }
+
+#endif // !MOVE_MOVE_H_

@@ -1,3 +1,6 @@
+#ifndef MOVE_R_VALUE_H
+#define MOVE_R_VALUE_H
+
 #include <iostream>
 #include "base.h"
 
@@ -120,3 +123,5 @@ void RightValueTest() {
 	RightValueTest_1();
 	RightValueTest_2();
 }
+
+#endif // MOVE_R_VALUE_H

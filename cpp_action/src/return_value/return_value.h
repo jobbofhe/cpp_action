@@ -1,4 +1,5 @@
-#ifndef RETURN_VALUE_H_
+#ifndef RETURN_VALUE_RETURN_VALUE_H_
+#define RETURN_VALUE_RETURN_VALUE_H_
 
 #include <iostream>
 #include <string>
@@ -151,4 +152,4 @@ void ReturnValueTest_Test() {
 	}
 }
 
-#endif // !RETURN_VALUE_H_
+#endif // !RETURN_VALUE_RETURN_VALUE_H_

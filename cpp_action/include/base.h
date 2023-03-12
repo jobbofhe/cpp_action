@@ -1,5 +1,5 @@
-#ifndef BASE_H_
-#define BASE_H_
+#ifndef INCLUDE_BASE_H_
+#define INCLUDE_BASE_H_
 
 #include <iostream>
 #include <chrono>
@@ -46,4 +46,4 @@ private:
 
 
 
-#endif // !BASE_H_
+#endif // !INCLUDE_BASE_H_
