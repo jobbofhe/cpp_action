@@ -42,7 +42,7 @@ public:
 private:
 	// CORE
 	TestSingleton() {}
-	// ×èÖ¹ copy, ½«¹¹Ôìº¯ÊıºÍ¸³Öµ¹¹Ôìº¯Êı£¬ÉèÖÃÎª private ³ÉÔ±¿ÉÒÔ×èÖ¹¿½±´
+	// é˜»æ­¢ copy, å°†æ„é€ å‡½æ•°å’Œèµ‹å€¼æ„é€ å‡½æ•°ï¼Œè®¾ç½®ä¸º private æˆå‘˜å¯ä»¥é˜»æ­¢æ‹·è´
 	TestSingleton(const TestSingleton&);
 	TestSingleton& operator=(const TestSingleton&);
 

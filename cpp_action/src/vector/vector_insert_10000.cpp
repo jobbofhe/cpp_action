@@ -1,4 +1,4 @@
-//// vector 插入 10000 个数字，怎么保证性能较高
+//// vector 鎻掑叆 10000 涓暟瀛楋紝鎬庝箞淇濊瘉鎬ц兘杈冮珮
 //#include <vector>
 //#include "base.h"
 //
@@ -51,7 +51,7 @@
 //}
 
 
-// vector 插入 10000 个数字，怎么保证性能较高
+// vector 鎻掑叆 10000 涓暟瀛楋紝鎬庝箞淇濊瘉鎬ц兘杈冮珮
 #include <vector>
 #include "base.h"
 

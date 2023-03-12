@@ -1,16 +1,16 @@
 #include <iostream>
 #include "base.h"
 
-// move µÄÊ¹ÓÃÇé¿ö
-// 1. ½«Ò»¸ö²»ÔÚÊ¹ÓÃµÄ×Ö·û´®¸³¸øÆäËû±äÁ¿£¬Ô­À´±äÁ¿ÉúÃüÖÜÆÚ½áÊø£»
-// a£©ÎªÊ²Ã´ÕâÃ´×ö£¿
-//	±ÜÃâ²»±ØÒªµÄ¿½±´£¬Ìá¸ßÐÔÄÜ
+// move çš„ä½¿ç”¨æƒ…å†µ
+// 1. å°†ä¸€ä¸ªä¸åœ¨ä½¿ç”¨çš„å­—ç¬¦ä¸²èµ‹ç»™å…¶ä»–å˜é‡ï¼ŒåŽŸæ¥å˜é‡ç”Ÿå‘½å‘¨æœŸç»“æŸï¼›
+// aï¼‰ä¸ºä»€ä¹ˆè¿™ä¹ˆåšï¼Ÿ
+//	é¿å…ä¸å¿…è¦çš„æ‹·è´ï¼Œæé«˜æ€§èƒ½
 
-// 2. move ÐÔÄÜ²âÊÔ
+// 2. move æ€§èƒ½æµ‹è¯•
 
-// 3. move ×öÐÎ²Î²ÅÄÜ³ö·¢ move ÓïÒå
+// 3. move åšå½¢å‚æ‰èƒ½å‡ºå‘ move è¯­ä¹‰
 
-// 4. move ×ªÒÆ shared_ptr ËùÓÐÈ¨ 
+// 4. move è½¬ç§» shared_ptr æ‰€æœ‰æƒ 
 // TODO 
 
 static void MoveConstString() {
@@ -31,7 +31,7 @@ static void MoveConstString() {
 	//& dst_str : [000000591696F828]
 	//src_str : []
 	//dst_str : [Hello Xuxing...]
-	// move µÄ¹¦ÄÜ¾ÍÊÇ£¬½«Ô­À´µÄÄÚ´æµÄËùÓÐÕß½øÐÐ×ªÒÆ¡£Ô­À´µÄËùÓÐÕßÔÚ move Ö®ºó²»ÔÚÓµÓÐµ±Ç°ÄÚ´æ¡£
+	// move çš„åŠŸèƒ½å°±æ˜¯ï¼Œå°†åŽŸæ¥çš„å†…å­˜çš„æ‰€æœ‰è€…è¿›è¡Œè½¬ç§»ã€‚åŽŸæ¥çš„æ‰€æœ‰è€…åœ¨ move ä¹‹åŽä¸åœ¨æ‹¥æœ‰å½“å‰å†…å­˜ã€‚
 }
 
 void MoveStringPerfTest() {
@@ -70,15 +70,15 @@ void MoveStringPerfTest() {
 	//[Task]:MoveStringPerfTest - 2 - reserve[Time cost] : 219 / ms
 	//[Task] : MoveStringPerfTest - 3 - move[Time cost] : 723 / ms
 	// TODO
-	// ²¢Ã»ÓÐ·¢ÏÖ move ÐÔÄÜ»áºÃÒ»µã£¬ »¹ÐèÒªÔÚÑéÖ¤
+	// å¹¶æ²¡æœ‰å‘çŽ° move æ€§èƒ½ä¼šå¥½ä¸€ç‚¹ï¼Œ è¿˜éœ€è¦åœ¨éªŒè¯
 }
 
 // 3. 
 // CORE
-// ÔÚº¯ÊýÄÚ²¿µÄÐÎ²Î£¬¼´Ê¹Ëü±»ÉùÃ÷ÎªÓÒÖµÒýÓÃÀàÐÍ£¬²¢±»°ó¶¨Ò»¸öÓÒÖµÒýÓÃÀàÐÍµÄÊµ²Î£¬µ«Ëü±¾ÉíÈÔÈ»ÊÇ×óÖµ£¬
-// ÎÞ·¨ÓÉËü´¥·¢ÒÆ¶¯XXº¯Êý£¬³ý·Ç¶ÔËüÔÙ´ÎÊ¹ÓÃmoveº¯Êý»òÕßforwardº¯Êý¡£Òò´Ë£¬Èç¹ûÄãÔÚÒÆ¶¯¹¹Ôìº¯ÊýÀï
-// ÃæÏëÒªÔÙ´Î´¥·¢ÒÆ¶¯ÓïÒå£¬ÄÇÃ´¾Í±ØÐë·ÅÔÚmoveÀïÓÃ£¬±ÈÈçÒÆ¶¯¹¹Ôìº¯ÊýµÄÈë²Î¶ÔÏóÀïÃæÓÐ¸östringÀàÐÍµÄ³É
-// Ô±±äÁ¿£¬ÏëÒÆ¶¯µ½*this¶ÔÏóµÄ¶ÔÓ¦string³ÉÔ±±äÁ¿£¬¾ÍµÃ°üÔÚmoveÀïÃæ£»
+// åœ¨å‡½æ•°å†…éƒ¨çš„å½¢å‚ï¼Œå³ä½¿å®ƒè¢«å£°æ˜Žä¸ºå³å€¼å¼•ç”¨ç±»åž‹ï¼Œå¹¶è¢«ç»‘å®šä¸€ä¸ªå³å€¼å¼•ç”¨ç±»åž‹çš„å®žå‚ï¼Œä½†å®ƒæœ¬èº«ä»ç„¶æ˜¯å·¦å€¼ï¼Œ
+// æ— æ³•ç”±å®ƒè§¦å‘ç§»åŠ¨XXå‡½æ•°ï¼Œé™¤éžå¯¹å®ƒå†æ¬¡ä½¿ç”¨moveå‡½æ•°æˆ–è€…forwardå‡½æ•°ã€‚å› æ­¤ï¼Œå¦‚æžœä½ åœ¨ç§»åŠ¨æž„é€ å‡½æ•°é‡Œ
+// é¢æƒ³è¦å†æ¬¡è§¦å‘ç§»åŠ¨è¯­ä¹‰ï¼Œé‚£ä¹ˆå°±å¿…é¡»æ”¾åœ¨moveé‡Œç”¨ï¼Œæ¯”å¦‚ç§»åŠ¨æž„é€ å‡½æ•°çš„å…¥å‚å¯¹è±¡é‡Œé¢æœ‰ä¸ªstringç±»åž‹çš„æˆ
+// å‘˜å˜é‡ï¼Œæƒ³ç§»åŠ¨åˆ°*thiså¯¹è±¡çš„å¯¹åº”stringæˆå‘˜å˜é‡ï¼Œå°±å¾—åŒ…åœ¨moveé‡Œé¢ï¼›
 
 void DefineRightRef() {
 	std::string str = "DefineRightRef";
@@ -88,7 +88,7 @@ void DefineRightRef() {
 	std::string t(r);
 	std::cout << t << std::endl;
 	std::cout << str << std::endl;
-	// output ËµÃ÷£¬½ö½öÊÇ¶¨ÒåÓÒÖµÒýÓÃ£¬ÄÇÃ´obj±¾Éí²»»á±»ÒÆ×ß
+	// output è¯´æ˜Žï¼Œä»…ä»…æ˜¯å®šä¹‰å³å€¼å¼•ç”¨ï¼Œé‚£ä¹ˆobjæœ¬èº«ä¸ä¼šè¢«ç§»èµ°
 		//DefineRightRef
 		//DefineRightRef
 		//DefineRightRef
@@ -99,7 +99,7 @@ void DefineRightRef() {
 	std::cout << "str : " << str << std::endl;
 	//move_t:DefineRightRef
 	//str :
-	// str Êä³öÎª¿Õ£¬ËµÃ÷£º ÔÚ×÷Îª²ÎÊýÊ±»á·¢Éúobj±»ÒÆ×ß
+	// str è¾“å‡ºä¸ºç©ºï¼Œè¯´æ˜Žï¼š åœ¨ä½œä¸ºå‚æ•°æ—¶ä¼šå‘ç”Ÿobjè¢«ç§»èµ°
 }
 
 void MoveTest() {

@@ -21,17 +21,17 @@ RightValue GetRightValue()
 }
 
 void RightValueTest_1() {
-	RightValue a = GetRightValue();// getA()��һ����ֵ
+	RightValue a = GetRightValue();// getA()是一个右值
 
 	//RightValue: Constructor
 	//RightValue : Copy Constructor
 
-	//���Կ���A�Ĺ��캯������һ�Σ��������캯��������һ�Σ����캯���Ϳ������캯�������ıȽϴ�ģ�
-	//�����Ƿ���Ա��⿽�����죿C++11��������һ�㡣��ע�⣬������������У���ȻgetA()��һ����ֵ��
-	//��������û���Զ���move constructor�����Ե�����Ĭ�ϵ�copy constructor������������ж��ڴ������
-	//���붨��move constructor��
+	//可以看到A的构造函数调用一次，拷贝构造函数调用了一次，构造函数和拷贝构造函数是消耗比较大的，
+	//这里是否可以避免拷贝构造？C++11做到了这一点。（注意，上面这个例子中，虽然getA()是一个右值，
+	//但是由于没有自定义move constructor，所以调用了默认的copy constructor。如果对象中有堆内存管理，
+	//必须定义move constructor。
 
-	// �����ƶ����캯��֮��
+	// 增加移动构造函数之后
 	//RightValue: Constructor
 	//RightValue : Move Constructor
 }
@@ -48,13 +48,13 @@ class A
 {
 public:
 	A() : pb(new B()) { cout << "A Constructor" << endl; }
-	A(const A& src) :pb(new B(*(src.pb)))//���
+	A(const A& src) :pb(new B(*(src.pb)))//深拷贝
 	{
 		cout << "A Copy Constructor" << endl;
 	}
 	A(A&& src) :pb(src.pb)
 	{
-		src.pb = nullptr;//�����ǹؼ��������Ժ󣬵�src.pb��deleteʱ��������Ϊ��ָ�룬�������ͷ�ԭ���Ķ��ڴ�
+		src.pb = nullptr;//这里是关键，这样以后，当src.pb被delete时，由于其为空指针，并不会释放原来的堆内存
 		cout << "A Move Constructor" << endl;
 	}
 	
@@ -75,7 +75,7 @@ public:
 		}
 		delete pb;
 		pb = src.pb;
-		//�����ǹؼ��������Ժ󣬵�src.pb��deleteʱ��������Ϊ��ָ�룬�������ͷ�ԭ���Ķ��ڴ�
+		//这里是关键，这样以后，当src.pb被delete时，由于其为空指针，并不会释放原来的堆内存
 		src.pb = nullptr;
 		cout << "operator=(const A&& src)" << endl;
 		return *this;
@@ -105,15 +105,15 @@ void RightValueTest_2() {
 	//================================================2
 	//B Copy Constructor
 	//A Copy Constructor
-	//A a = getA();���õ���A���ƶ����죬A a1(a); ���õ���A�Ŀ������졣A�Ŀ���������Ҫ�Գ�Ա����B�����������A���ƶ����첻��Ҫ�������ԣ�A���ƶ�����Ч�ʸߡ�
+	//A a = getA();调用的是A的移动构造，A a1(a); 调用的是A的拷贝构造。A的拷贝构造需要对成员变量B进行深拷贝，而A的移动构造不需要，很明显，A的移动构造效率高。
 
-	// std::move�����Խ���ֵ��Ϊ��ֵ�����⿽������
-	// A a2(std::move(a));��aת��Ϊ��ֵ�����a2���õ����ƶ���������ǿ�������
+	// std::move语句可以将左值变为右值而避免拷贝构造
+	// A a2(std::move(a));将a转换为右值，因此a2调用的是移动构造而不是拷贝构造
 	A a2(move(a));
 
-	// !!!��Ҫ
-	// ��֮�������������ƶ�������ƶ���ֵ�����������ٿ�������Ϳ�����ֵ�����ġ� �ƶ����죬�ƶ���ֵҪ����noexcept������֪ͨ��׼�ⲻ�׳��쳣��
-	a2 = getA();//�ƶ���ֵ����ΪgetA()����ֵ��
+	// !!!重要
+	// 总之尽量给类添加移动构造和移动赋值函数，而减少拷贝构造和拷贝赋值的消耗。 移动构造，移动赋值要加上noexcept，用于通知标准库不抛出异常。
+	a2 = getA();//移动赋值（因为getA()是右值）
 }
 
 void RightValueTest() {

@@ -3,7 +3,7 @@
 
 #include "base.h"
 
-// ����ģʽ������ʹ�þֲ���̬����
+// 懒汉模式单例，使用局部静态变量
 
 class Singleton {
 private:

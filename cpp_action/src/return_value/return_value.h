@@ -6,7 +6,7 @@
 #include "base.h"
 
 
-// ½²½âÒ»¸ö ·µ»ØÖµ µÄÎÊÌâ
+// è®²è§£ä¸€ä¸ª è¿”å›å€¼ çš„é—®é¢˜
 
 class TestString {
 public:
@@ -114,20 +114,20 @@ void ReturnValueTest_Test() {
 		StartEndLine line("ReturnStringTest - 3");
 		std::cout << "ReturnStringTest().c_str() : [ " << ReturnStringTest().c_str() << "]" << std::endl;
 		
-		// ÕıÈ·×ö·¨
+		// æ­£ç¡®åšæ³•
 		std::string str = ReturnStringTest();
 		std::cout << "ReturnStringTest().c_str() : [ " << ReturnStringTest().c_str() << "]" << std::endl;
 		std::cout << "str : [" << str.c_str() << "]" << std::endl;
 
-		// ´íÎó×ö·¨
+		// é”™è¯¯åšæ³•
 		const char* pc = ReturnStringTest().c_str();
 		std::cout << "pc===========[" << pc << "]" << std::endl;
 
 		// **************************************************************************************
 		// CORE
-		// ºËĞÄÎÊÌâ£ºÎÒÃÇÃ»ÓĞ½« ReturnStringTest() µÄ½á¹û¸³¸øÒ»¸östring¶ÔÏó¾ÍÖ±½Ó»ñÈ¡ÆäÖ¸ÕëÁË£¬
-		// ÕâÊ±£¬ÏµÍ³²¢²»»áÎªstringµ÷ÓÃ¿½±´¹¹Ôìº¯Êı»òÊÇ¸³Öµº¯Êı£¬·µ»ØµÄstringÈÔÈ»Ö»ÊÇÒ»¸öÁÙ
-		// Ê±¶ÔÏóµÄ×´Ì¬£¬Ëü»áÔÚÍê³É¶ÔpcµÄ¸³Öµºó±»Ïú»Ù£¬ÕâÊ±ÆäÄÚ²¿µÄÊı¾İÒ²²»»á´æÔÚÁË¡£
+		// æ ¸å¿ƒé—®é¢˜ï¼šæˆ‘ä»¬æ²¡æœ‰å°† ReturnStringTest() çš„ç»“æœèµ‹ç»™ä¸€ä¸ªstringå¯¹è±¡å°±ç›´æ¥è·å–å…¶æŒ‡é’ˆäº†ï¼Œ
+		// è¿™æ—¶ï¼Œç³»ç»Ÿå¹¶ä¸ä¼šä¸ºstringè°ƒç”¨æ‹·è´æ„é€ å‡½æ•°æˆ–æ˜¯èµ‹å€¼å‡½æ•°ï¼Œè¿”å›çš„stringä»ç„¶åªæ˜¯ä¸€ä¸ªä¸´
+		// æ—¶å¯¹è±¡çš„çŠ¶æ€ï¼Œå®ƒä¼šåœ¨å®Œæˆå¯¹pcçš„èµ‹å€¼åè¢«é”€æ¯ï¼Œè¿™æ—¶å…¶å†…éƒ¨çš„æ•°æ®ä¹Ÿä¸ä¼šå­˜åœ¨äº†ã€‚
 		// **************************************************************************************
 
 	}
@@ -137,15 +137,15 @@ void ReturnValueTest_Test() {
 		std::string tmp = TestReturnString();
 		std::cout << "tmp: " << tmp << std::endl;
 
-		// error C2440: ¡°³õÊ¼»¯¡±: ÎŞ·¨´Ó¡°std::string¡±×ª»»Îª¡°std::string &¡±
+		// error C2440: â€œåˆå§‹åŒ–â€: æ— æ³•ä»â€œstd::stringâ€è½¬æ¢ä¸ºâ€œstd::string &â€
 		//std::string& strRefer = TestReturnString();
 		//std::cout << "strRefer:" << strRefer << std::endl;
 		
-		// ³£Á¿ÒıÓÃµÄ³õÊ¼Öµ±ØĞëÊÇ×óÖµ
+		// å¸¸é‡å¼•ç”¨çš„åˆå§‹å€¼å¿…é¡»æ˜¯å·¦å€¼
 		const std::string& strRefer = TestReturnString();
 		std::cout << "strRefer:" << strRefer << std::endl;
 
-		//// Ö±½Ó¹Òµô
+		//// ç›´æ¥æŒ‚æ‰
 		//std::string& strRefer2 = TestStringReference();
 		//std::cout << "strRefer2:" << strRefer2 << std::endl;
 	}
