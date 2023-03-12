@@ -24,7 +24,7 @@ RightValue GetRightValue()
 }
 
 void RightValueTest_1() {
-	RightValue a = GetRightValue();// getA()是一个右值
+	RightValue a = GetRightValue();// GetRightValue()是一个右值
 
 	//RightValue: Constructor
 	//RightValue : Copy Constructor
