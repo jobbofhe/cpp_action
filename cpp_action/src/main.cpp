@@ -24,10 +24,10 @@ int main() {
 	{
 		StaticTest();
 	}
-	{
-		DesignTestSingle();
-	}
-	{
-		ThreadTest();
-	}
+	// {
+	// 	DesignTestSingle();
+	// }
+	// {
+	// 	ThreadTest();
+	// }
 }

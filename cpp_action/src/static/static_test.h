@@ -7,6 +7,8 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "static_init_test.h"
+
 class TestSingleton {
 public:
 	static TestSingleton*GetInstance() {
@@ -72,6 +74,8 @@ void TestMultiThreadsAccess() {
 
 void StaticTest() {
 	TestSingletonInit();
+
+	StaticInit_Test();
 }
 
 #endif // !STATIC_TEST_H_
