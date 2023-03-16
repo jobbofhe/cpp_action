@@ -80,3 +80,58 @@ A: 只要能写成函数，必然inline，效率和宏一样，还多了各种ch
 
 
 4. Q:(20200315) 在上次我写了 singleton 之后（缺少一次 nullptr 判断）， 我今天再本地新写了一个简单的测试例子，就当前这种例子而言，这个 singleton 还有什么优化的空间吗？或者说目前还有没有缺点？
+```c++
+class Singleton {
+private:
+	Singleton() {
+		std::cout << "Singleton: constructor called" << std::endl;
+	}
+	~Singleton() {
+		std::cout << "Singleton: destructor called" << std::endl;
+	}
+	Singleton(Singleton&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
+
+public:
+	static Singleton& GetInstance() {
+		static Singleton instance_;
+		return instance_;
+	}
+};
+```
+A: 打印输出结尾用endl。private函数写下面。这两个delete不对，想想哪里不对，争取换个写法，继承自 noncopyable 类。instance函数是对的，变量名字不好。
+    这个测试没有意义，要多线程。查一下singleton最初的来源。
+
+
+5. About delete
+Q: (20200316) 从昨天写 singleton ， 我使用了 'xxx() = delete;'， 我今天测试了两种情况：delete 构造函数'xx() = delete;' 和直接将构造函数放作为 private  成员，
+    都能达到阻止调用构造函数的目的， 但是这两种报错内容不同， 请问两种方式有没有区别？建议用哪一种？
+
+```c++
+class DeleteTest {
+public:
+	DeleteTest() {}
+
+    DeleteTest(DeleteTest&) = delete;
+    DeleteTest& operator=(const DeleteTest&) = delete;
+};
+
+class DeleteTest2 {
+public:
+	DeleteTest2() {}
+
+private:
+    DeleteTest2(DeleteTest2&) {}
+    DeleteTest2& operator=(const DeleteTest2&) {}
+};
+
+void KeywordDeleteTest() {
+	DeleteTest t1; 
+	DeleteTest t2 = t1; // error C2280: “DeleteTest::DeleteTest(DeleteTest &)”: 尝试引用已删除的函数
+
+	DeleteTest2 tt1;
+	DeleteTest2 tt2 = tt1; // error C2248: “DeleteTest2::DeleteTest2”: 无法访问 private 成员(在“DeleteTest2”类中声明)
+}
+```
+
+6. 多线程版本 Singleton 检查
