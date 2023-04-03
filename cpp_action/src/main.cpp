@@ -7,6 +7,8 @@
 #include "static/static_test.h"
 #include "design_pattern/singleton.h"
 #include "threads/thread_test.h"
+#include "keyword/keyword_test.h"
+#include "smart_pointer/shared_ptr_impl.h"
 
 int main() {
 	//{
@@ -21,13 +23,19 @@ int main() {
 	//{
 	//	RightValueTest();
 	//}
-	{
-		StaticTest();
-	}
+	// {
+	// 	StaticTest();
+	// }
 	// {
 	// 	DesignTestSingle();
 	// }
 	// {
 	// 	ThreadTest();
 	// }
+	// {
+	//	 KeyWordTest();
+	// }
+	{
+		TestSmartPointer();
+	}
 }
