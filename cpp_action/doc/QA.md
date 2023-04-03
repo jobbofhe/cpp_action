@@ -1,17 +1,17 @@
 
 # 每日问题
 
-1. 引用
+# 引用相关 （20200312）
 
-Q: (20200312) 引用是变量的别名，指针存放的是变量的地址,引用直接访问到变量，指针间接访问到变量，指针存储变量的地址很好理解，请问引用这种可以直接访问变量的底层逻辑是怎么实现的？
+Q: 引用是变量的别名，指针存放的是变量的地址,引用直接访问到变量，指针间接访问到变量，指针存储变量的地址很好理解，请问引用这种可以直接访问变量的底层逻辑是怎么实现的？
 
 A： 所以说这些概念真的误导人，你这段话哪里看来的。。。引用本质上就是指针，它访问的时候跟指针一模一样就是用的地址，引用和指针都是通过地址直接访问到变量。
     用唯一的特殊性是它没有办法声明为空，字面上给人感觉总是指向一个存在的东西，但是实际上你也可以把一个空指针解引用赋给一个引用。另外const引用这个常用套路你也知道了，
     所以引用本质上是个语法糖，没有任何新鲜的，增加可读性，可维护性而已，没有它，日子一样过。当然，等到了右值引用就是另一个世界了，那个太复杂了。
 
-2. 线程安全 
+# 线程安全 (20200313)
 
-Q: (20200313) 类似 br_tensorflow 中 BrKernelUtil 类，仅仅是一些接口, 这些接口的数据是外部 class 传入的；针对这种接口类，怎么保证线程安全；我有几个思路： 
+Q:  类似 br_tensorflow 中 BrKernelUtil 类，仅仅是一些接口, 这些接口的数据是外部 class 传入的；针对这种接口类，怎么保证线程安全；我有几个思路： 
     1）这种接口类本身就不应该存在，外部 class 的数据，以及对于这些数据的修改，都应该成为该 class 自身的成员函数，并且做好线程安全的控制； 
     2）另一个思路是, 针对 BrKernelUtil 的接口做线程安全的操作，对传入的数据加锁； 
     3）还有一个思路就是， 针对存在多线程，调用 BrKernelUtil 类中的接口的时候，直接对接口加锁， 比如 直接对 ReorderD2D() ， 加锁； 
@@ -25,9 +25,9 @@ A: 通常是套路1，然后这个类里面的这些函数本质上是全局函�
     加锁永远是对逻辑加锁，而这些逻辑必然操作数据，因为只有数据才有竞争，数据又是归一些类拥有，所以套路1就显得合理了。
 
 
-3. marco and #define
+# marco and #define （20200314)
 
-Q:(20200314) 《Effective C++》中建议，形似函数的宏，最好改用 inline 函数替换 #define. 我们都知道， inline 和 #define 都比普通函数更高效；
+Q:《Effective C++》中建议，形似函数的宏，最好改用 inline 函数替换 #define. 我们都知道， inline 和 #define 都比普通函数更高效；
     我发现在我们的代码仓中很多都是 #define 形式的函数，而不是 inline ！
 
     问题是：inline 和 #define 这两种形式，我们在开发过程中，要确定在什么场景下使用更合理？
@@ -78,8 +78,9 @@ A: 只要能写成函数，必然inline，效率和宏一样，还多了各种ch
     6.类中的成员函数是默认的内联函数
 ```
 
+# Singleton (20200315)
 
-4. Q:(20200315) 在上次我写了 singleton 之后（缺少一次 nullptr 判断）， 我今天再本地新写了一个简单的测试例子，就当前这种例子而言，这个 singleton 还有什么优化的空间吗？或者说目前还有没有缺点？
+Q: 在上次我写了 singleton 之后（缺少一次 nullptr 判断）， 我今天再本地新写了一个简单的测试例子，就当前这种例子而言，这个 singleton 还有什么优化的空间吗？或者说目前还有没有缺点？
 ```c++
 class Singleton {
 private:
@@ -103,8 +104,8 @@ A: 打印输出结尾用endl。private函数写下面。这两个delete不对，
     这个测试没有意义，要多线程。查一下singleton最初的来源。
 
 
-5. About delete
-Q: (20200316) 从昨天写 singleton ， 我使用了 'xxx() = delete;'， 我今天测试了两种情况：delete 构造函数'xx() = delete;' 和直接将构造函数放作为 private  成员，
+# About delete (20200316)
+Q:  从昨天写 singleton ， 我使用了 'xxx() = delete;'， 我今天测试了两种情况：delete 构造函数'xx() = delete;' 和直接将构造函数放作为 private  成员，
     都能达到阻止调用构造函数的目的， 但是这两种报错内容不同， 请问两种方式有没有区别？建议用哪一种？
 
 ```c++
@@ -138,13 +139,13 @@ void KeywordDeleteTest() {
 
 A: 第一种是现代，第二种是老派额写法。没区别，效果一样；个人喜欢第二种。
 
-6. Q(20200317) 
+# Singleton 2 (20200317) 
 
-今天我想问一个非技术细节的问题，就是我平时发现实现一种功能，其实代码有多种写法， 就像这两天正在深究的 Singleton ，网上各种帖子有个不同的写法；我的问题就是，像这种固定模式的代码，有没有那个你学习过的书籍或者开源项目，比较好的展示了各种设计模式的高效写法，让人一看这就是优秀代码！可以推荐我去学习学习， 多读读 standard library 代码有必要吗？ 
+Q: 今天我想问一个非技术细节的问题，就是我平时发现实现一种功能，其实代码有多种写法， 就像这两天正在深究的 Singleton ，网上各种帖子有个不同的写法；我的问题就是，像这种固定模式的代码，有没有那个你学习过的书籍或者开源项目，比较好的展示了各种设计模式的高效写法，让人一看这就是优秀代码！可以推荐我去学习学习， 多读读 standard library 代码有必要吗？ 
 
 A： 比如singleton，你可以用DCLP写两个版本，然后它还有篇论文，又写两个，boost源码里抄一个，现代的写法最后一个。多读boost源码。
 
-7. (20230320) 
+# Singleton 3 DCLP (20230320) 
 
 Q: 在继续了解 Singleton 之后，在一些帖子中，我了解到，诸如如下代码，也并非线程安全，原因是 inst = new Singleton(); 这条语句存在三条操作指令：
 1) 分配 Singleton 对象的内存；
@@ -170,14 +171,14 @@ A:
 - DCLP的论文
 
 
-8. (20230321) 我把昨天的例子，重新写一下： 增加了智能指针、 使用了 Noncopyable； 问题是： constexpr NonCopyable() = default; 这里写成 “ NonCopyable() = default; ” 发现编译执行也没问题；这里 constexpr 我查到含义是（编译阶段就能够确定其值的常量）， 但是在这个类里面，这么使用的好处是什么呢？ 还有一个更正一下， 昨天我问 lock_guard 不需要参数是c++14 才有的。 今天我编译发现，不用参数 c++14编译会报错；c++17 是不需要参数的。 
+# Noncopyable (20230321)
+Q: 我把昨天的例子，重新写一下： 增加了智能指针、 使用了 Noncopyable； 问题是： constexpr NonCopyable() = default; 这里写成 “ NonCopyable() = default; ” 发现编译执行也没问题；这里 constexpr 我查到含义是（编译阶段就能够确定其值的常量）， 但是在这个类里面，这么使用的好处是什么呢？ 还有一个更正一下， 昨天我问 lock_guard 不需要参数是c++14 才有的。 今天我编译发现，不用参数 c++14编译会报错；c++17 是不需要参数的。 
 // g++ singleton_with_shared_ptr.cc --std=c++14 -o main // Error 
 // singleton_with_shared_ptr.cc:32:21: error: missing template arguments before ‘_’ // g++ singleton_with_shared_ptr.cc --std=c++17 -o main // OK
 
 
 
-
-9. (20230322) ??
+# (20230322) 
 ```c++ 
 std::unique_ptr<Singleton> Singleton::GetInstance() { if (!inst_) { std::lock_guard _(lock_); if (!inst_) { inst_ = std::make_unique<Singleton>(); } } return inst_; } 
 
@@ -195,19 +196,20 @@ Singleton 访问 inst_ 已经为 nullptr；
 move 之后， Singleton 中的静态变量 [static std::unique_ptr<Singleton> inst_;] 已经被析构了； 问题： 如果返回 inst_.get() 其实也不合理，会将直接将罗指针暴露给用户。这里列出来的三种返回值方式，都不靠谱； 所以我认为使用 unique_ptr 来实现 Singleton 是不合适的，不知道我这个想法对吗？
 
 
-
-10. (20230323) <<Effective C++>> (55) 中，有句话：“bitwise constness 正是 C++ 对常量性的定义，因此 const 成员函数不可以更改对象内 non-static 成员变量”。 这句话反过来理解，就是 const 可以修改 static 成员变量，我写了个测试，确实如此。 我的问题是， const 的常量性让人理解为不可以被修改， 但是 const 成员函数，为什么设计一个功能要去修改 static 成员变量呢？这种设计的出发点是什么？为了解决什么问题呢？
-
-
-const 属性本质上限制的是 this, type: const Obj * const this, 访问 static func or data 的时候不用 this，所以没有任何限制。逻辑上也通，static data == global data, any func can update it.
+# const (20230323)
+Q: <<Effective C++>> (55) 中，有句话：“bitwise constness 正是 C++ 对常量性的定义，因此 const 成员函数不可以更改对象内 non-static 成员变量”。 这句话反过来理解，就是 const 可以修改 static 成员变量，我写了个测试，确实如此。 我的问题是， const 的常量性让人理解为不可以被修改， 但是 const 成员函数，为什么设计一个功能要去修改 static 成员变量呢？这种设计的出发点是什么？为了解决什么问题呢？
 
 
-
-11. (20230324) const 修饰成员函数，表示这个函数不修改对象内部某些变量的状态；而 mutable 又允许 const 成员函数，去修改这些内部变量， 这两者之前有啥关系？这个 mutable 主要在什么场景使用？
-
+A: const 属性本质上限制的是 this, type: const Obj * const this, 访问 static func or data 的时候不用 this，所以没有任何限制。逻辑上也通，static data == global data, any func can update it.
 
 
-12. （20230327） 上一个问题， mutable 和 const 我已经搞明白了， 今天我看到 suinfer 中有一段代码， 有点疑惑，这个 mutable 和 const 共同修饰一个变量的必要性是什么？
+# const function(20230324)
+Q: const 修饰成员函数，表示这个函数不修改对象内部某些变量的状态；而 mutable 又允许 const 成员函数，去修改这些内部变量， 这两者之前有啥关系？这个 mutable 主要在什么场景使用？
+
+A: TODO
+
+# mutable （20230327）
+Q: 上一个问题， mutable 和 const 我已经搞明白了， 今天我看到 suinfer 中有一段代码， 有点疑惑，这个 mutable 和 const 共同修饰一个变量的必要性是什么？
 
 ``` c++
 mutable const char* p;
@@ -215,4 +217,151 @@ mutable const char* p;
 
 A: const 修饰指针指向的内容， 加上 mutable 之后，就是说， const 成员函数可以修改指针的指向；
 
-13. (20230324) C++ 编译器对于以值传递方式返回的 class object， 都会通过优化程序，加上额外的 reference 参数， 就是 NRV 优化操作。一般的，我理解的以值传递方式返回，应该也不存在什么问题；这里进行 NRV 优化除了减少 copy，还有其他的设计目标吗？ 另外编译器自动进行 NRV 的前提条件是什么？这种优化选项是编程人员可控的吗？
+# NVR (20230328)
+Q: C++ 编译器对于以值传递方式返回的 class object， 都会通过优化程序，加上额外的 reference 参数， 就是 NRV 优化操作。一般的，我理解的以值传递方式返回，应该也不存在什么问题；这里进行 NRV 优化除了减少 copy，还有其他的设计目标吗？ 另外编译器自动进行 NRV 的前提条件是什么？这种优化选项是编程人员可控的吗？
+
+A:是 RVO 和 NRVO , 就是为了减少拷贝，我们不可控，编译器生成的代码。
+
+# noexcept （20230329）
+Q:  关于 noexcept 关键字， 我看建议在以下几个场景使用：move constructor、move assignment、destructor （编译器默认会加）。我写了一个测试 vector 需要扩容的例子， 确实发现了效率更高，会主动调用 move constructor; 我的问题是：如果我在实际应用中，声明的 noexcept 函数，确实抛出异常，然后被终止了。在这种情况下，如果我的代码调用链路很长，系统岂不是会过早的就被终止！所以当我们开发过程中，是否需要对很底层的接口声明为 noexcept 呢？ 除了以上三种情况，还有什么需要注意的吗?
+
+A: 众说纷纭，专家组也没有说清楚，建议看看 suinfer repo 中 suinfer_common.h 几个函数的写法，算是总结；
+
+
+# shared_ptr （20230330）
+
+```c++
+#include <iostream>
+
+class Person { 
+public: 
+    Person()  { id_ = 0; } 
+    Person(int id) : id_(id) {} 
+    void Print() { std::cout << "id: " << id_ << std::endl; } 
+private: int id_; 
+
+}; 
+
+class shared_count { 
+public: 
+    shared_count() : count_(1) {} 
+    void count_add() { ++this->count_; } 
+    int64_t count_reduce() { return --this->count_; } 
+    int64_t get_count() { return this->count_; } 
+    
+private: 
+    int64_t count_; 
+
+}; 
+
+template<typename T>
+class shared_ptr { 
+public: 
+    explicit shared_ptr(T* ptr = nullptr) noexcept : ptr_(ptr) { 
+        std::cout << "constructor..." << std::endl; 
+        if (ptr) { shared_count_ = new shared_count(); 
+        } 
+    } 
+    
+    ~shared_ptr() { 
+        std::cout << "destructor..." << std::endl; 
+        if (ptr_ && !shared_count_->count_reduce()) { 
+            delete ptr_; delete shared_count_; 
+        } 
+    } 
+    
+    T& operator*() const noexcept { return *ptr_; } 
+    T* operator->() const noexcept { return ptr_; } 
+    T* get() const noexcept { return ptr_; } 
+    
+    shared_ptr(const shared_ptr<T>& other) noexcept { 
+        std::cout << "copy..." << std::endl; 
+        ptr_ = other.ptr_; 
+        if (ptr_) { 
+            other.shared_count_->count_add(); 
+            shared_count_ = other.shared_count_; 
+        } 
+    } 
+    
+    // move 
+    shared_ptr(const shared_ptr<T>&& other) noexcept { 
+        std::cout << "move..." << std::endl; 
+        ptr_ = other.ptr_; 
+        if (ptr_) { 
+            shared_count_ = other.shared_count_; 
+            other.ptr_ = nullptr; 
+            other.shared_count_ = nullptr; 
+        } 
+    } 
+    
+    // assign 
+    shared_ptr<T>& operator=(const shared_ptr<T>& other) noexcept { 
+        std::cout << "operator=: " << std::endl; 
+        if (this == &other) { 
+            return *this; 
+        } 
+        
+        if (!other.ptr_) { 
+            if (this->ptr_ != nullptr) 
+            { 
+                // 当前对象(被赋值对象)如果不为空，且计数为 0，需要先 delete 
+                if (this->shared_count_->count_reduce() == 0) { 
+                    delete this->ptr_; 
+                    delete this->shared_count_; 
+                    this->ptr_ = nullptr; 
+                    this->shared_count_ = nullptr; 
+                } 
+            } 
+            this->ptr_ = other.ptr_; this->shared_count_ = other.shared_count_; 
+        } else { 
+            if (this->ptr_ != nullptr) { 
+                if (this->shared_count_->count_reduce() == 0) { 
+                    delete this->ptr_; delete this->shared_count_; this->ptr_ = nullptr; this->shared_count_ = nullptr; 
+                } 
+            } this->ptr_ = other.ptr_; this->shared_count_ = other.shared_count_; 
+            
+            // 赋值后, 本类计数器需要+1 
+            this->shared_count_->count_add(); 
+        }
+        
+        return *this; 
+    } 
+    
+    int64_t use_count() const noexcept { if (ptr_) { return shared_count_->get_count(); } else { return 0; } } 
+    
+private: 
+    T* ptr_; 
+    shared_count* shared_count_; 
+}; 
+
+int main() { 
+    shared_ptr<Person> ptr1(new Person()); 
+    shared_ptr<Person> ptr2(ptr1); 
+    shared_ptr<Person> ptr3; 
+    ptr3 = ptr2; 
+    
+    std::cout << "use_cout: " << ptr1.use_count() << std::endl; 
+    std::cout << "use_cout: " << ptr2.use_count() << std::endl; 
+    std::cout << "use_cout: " << ptr3.use_count() << std::endl; 
+    return 0; 
+}
+```
+
+# 继承 基类中存在析构函数，如何避免错误 delete （20230403）
+
+```c++
+class MyString : public std::string {
+private:
+    class xxx;
+};
+
+{
+    MyString *my_str = new MyString();
+    std::string str = my_str;
+    delete str;
+}
+
+```
+如上情况，因为 std::string 包 non-virtual 的析构函数，delete str 会造 MyString 部分成员泄露；
+诸如上述情况， 我们在开发过程中，如果想要继承系统或者其他人写的 class， 如果对方的 class 存在 non-virtual 析构函数；
+我们怎么避免上述情况的发生？C++ 有没有‘禁止继承’这种形式的机制？
