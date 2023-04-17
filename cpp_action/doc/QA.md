@@ -365,3 +365,210 @@ private:
 如上情况，因为 std::string 包 non-virtual 的析构函数，delete str 会造 MyString 部分成员泄露；
 诸如上述情况， 我们在开发过程中，如果想要继承系统或者其他人写的 class， 如果对方的 class 存在 non-virtual 析构函数；
 我们怎么避免上述情况的发生？C++ 有没有‘禁止继承’这种形式的机制？
+
+Q: final 可以阻止类继承，可以阻止虚函数重载，按时一个类的析构函数如果是 non-virtual , final 就失去了作用。是不是可以说，如果一个类要作为基类，一定要把析构函数
+作为 virtual 函数？
+
+A:
+yes
+
+# shared_ptr 指向多个基础类指针
+
+```c++
+char* chr = new chr;
+std::shared_ptr<char> p1(chr);
+std::shared_ptr<char> p2(chr);
+
+// result 
+// free(): double free detected in tcache 2
+// Aborted (core dumped)
+```
+Q: why?
+A: (void)p2.release(), 事实上，不要写出这样的代码
+
+
+#  std::atomic 为什么比 mutex 高效
+
+(20230410) 
+```c++ 
+// case 1 
+class Obj{ public: Counter() { std::mutex mtx; std::lock_guard _(mtx); ++count; } private: int count; }; 
+// case 2 
+class Obj{ public: Counter() { ++count; } private: std::atomic<int> count; }; 
+``` 
+Q：
+针对 std::atomic 和 std::mutex 我做了测试, 我发现 std::atomic 效率更高；这里我有两个问题： 
+1. 为什么 std::atomic<int> count; 效率会更高，他的原理是什么？ 
+2. std::atomic 除了能对基础类型诸如 int 进行原子操作外， C++ 有没有引申出来对复杂变量的原子操作, 例如 std::atomic<Object> Obj ?
+
+A: 
+简单理解， atomic 是在 cpu 指令级别上实现锁，所以必不可少的内存栅栏带来流水线随时外，几乎可以认为没有什么额外开销；而 mutex 光是在内核中睡眠/唤醒
+一下，就至少是微秒级别的时间开销，更别说额外的调用和封装、判断了；
+
+
+# final c++11 singleton
+(20230411) 
+```c++
+#include <iostream>
+#include <vector>
+#include <thread>
+
+#define DISALLOW_COPY_AND_ASSIGN(ClassName) \
+  ClassName(const ClassName&) = delete;     \
+  void operator=(const ClassName&) = delete
+
+class MyEngine {
+  DISALLOW_COPY_AND_ASSIGN(MyEngine);
+public:
+  MyEngine() = default;
+  ~MyEngine(){};
+  static MyEngine& Instance() {
+    static MyEngine engine;
+    return engine;
+  }
+  void Print() { std::cout << "id_: " << id_ << std::endl; }
+private:
+  const std::string id_;
+};
+
+void Func() {
+  MyEngine& ins = MyEngine::Instance();
+  std::cout << "ins: " << &ins << std::endl;
+}
+int main(int argc, char const* argv[]) {
+  const int loop_number = 100;
+  std::vector<std::thread> vec_td;
+  for (size_t i = 0; i < loop_number; ++i) {
+    vec_td.push_back(std::thread(Func));
+  }
+  for (size_t ix = 0; ix < loop_number; ++ix) {
+    vec_td[ix].join();
+  }
+  return 0;
+}
+```
+
+
+# DCLP with atomic
+
+(20230412)
+
+```c++
+#include <mutex>
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <atomic>
+
+class Singleton {
+public:
+  Singleton() {}
+  static Singleton* GetInstance() {
+    // 当前线程中读或写不能被重排到此加载前
+    Singleton* internal = pInstance_.load(std::memory_order_acquire);
+    if (!internal) {
+      std::lock_guard<std::mutex> _(mutex_);
+      // 没有同步或顺序制约，仅对此操作要求原子性
+      internal = pInstance_.load(std::memory_order_relaxed);
+      if (!internal) {
+        internal = new Singleton;
+        // 当前线程中的读或写不能被重排到此存储后
+        pInstance_.store(internal, std::memory_order_release);
+      }
+    }
+    return pInstance_;
+  }
+private:
+  Singleton(Singleton&) {}
+  Singleton& operator=(const Singleton&) {}
+  static std::atomic<Singleton*> pInstance_;
+  static std::mutex mutex_;
+};
+
+std::atomic<Singleton*> Singleton::pInstance_(nullptr);
+std::mutex Singleton::mutex_;
+void Func() {
+  Singleton* ins = Singleton::GetInstance();
+  std::cout << "instance:  " << &ins << std::endl;
+}
+
+int main(int argc, char const* argv[]) {
+  const int loop_number = 1000;
+  std::vector<std::thread> vec_td;
+  for (size_t i = 0; i < loop_number; ++i) {
+    vec_td.push_back(std::thread(Func));
+  }
+  for (size_t ix = 0; ix < loop_number; ++ix) {
+    vec_td[ix].join();
+  }
+  return 0;
+}
+// g++ dclp_with_atomic.cc -std=c++11 -lpthread -o main
+```
+
+A：
+返回引用，不要指针，需要释放，static inline 就不用类外再定义了
+测试用例: reserve, emplace back, modern for loop
+
+改后：
+
+```c++
+# version 2
+class Singleton {
+public:
+  Singleton() {}
+  static Singleton* GetInstance() {
+    // 当前线程中读或写不能被重排到此加载前
+    Singleton* internal = pInstance_.load(std::memory_order_acquire);
+    if (!internal) {
+      std::lock_guard<std::mutex> _(mutex_);
+      // 没有同步或顺序制约，仅对此操作要求原子性
+      internal = pInstance_.load(std::memory_order_relaxed);
+      if (!internal) {
+        internal = new Singleton;
+        // 当前线程中的读或写不能被重排到此存储后
+        pInstance_.store(internal, std::memory_order_release);
+      }
+    }
+    return pInstance_;
+  }
+private:
+  Singleton(Singleton&) {}
+  Singleton& operator=(const Singleton&) {}
+  static inline std::atomic<Singleton*> pInstance_;
+  static std::mutex mutex_;
+};
+std::mutex Singleton::mutex_;
+void Func() {
+  Singleton* ins = Singleton::GetInstance();
+  std::cout << "instance:  " << &ins << std::endl;
+}
+int main(int argc, char const* argv[]) {
+  const int loop_number = 1000;
+  std::vector<std::thread> vec_td;
+  vec_td.reserve(loop_number);
+  for (size_t i = 0; i < loop_number; ++i) {
+    vec_td.emplace_back(std::thread(Func));
+  }
+  for (auto& td : vec_td) {
+    td.join();
+  }
+  return 0;
+}
+```
+
+# T&&
+(20230413)
+
+Q: 
+另外今天看书，遇到一个问题，不太理解应用在哪里，关于 Universal reference; 
+```c++ 
+void Function(Object&& obj);    // Rvalue ref 
+Object&& obj = Object();        // Rvalue ref 
+auto&& obj2 = obj;              // Universal ref 
+``` 
+
+一开始很迷惑，同样的 T&&， 为啥不一样，查阅资料之后大概明白了 函数模板参数为 T&&, 并且 T 需要推导得出，则是 Universal ref; 如果对象被声明为 auto&&，则是 Universal ref; 如果声明的形式不是标准 type&&, 或者类型不需要推导， 则 type&&是 Rvalue ref; 我的问题是： 虽然明白了怎么判断 Universal ref 和 Rvalue ref, 但是 Universal ref 的应用场景是什么，为什么需要这么一个设计？
+
+A：
+用在 STL 源码内部，为了完美转发， 可以参考 vector 源码看看；
