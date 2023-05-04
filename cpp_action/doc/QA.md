@@ -572,3 +572,29 @@ auto&& obj2 = obj;              // Universal ref
 
 A：
 用在 STL 源码内部，为了完美转发， 可以参考 vector 源码看看；
+
+
+(20230419)
+
+
+```c++
+void FuncA(Object boj);
+void FuncB(const Object& obj);
+```
+Q: 为什么以 pass-by-value 的形式传递参数，会调用拷贝构造函数，而以 pass-by-reference 的形式传递参数却不会？这个背后的原理是什么？我在哪里能查到实现的源码呢？
+  
+
+# const ref 做参数能避免函数参数切个问题
+（20230504）
+
+```c++
+class Base {};
+class Derived {};
+
+// by value
+void Func(Base b);
+
+// by reference
+void FuncB(const Base& b);
+```
+以 pass by value 方式传递函数参数，会引起对象切割问题（slicing）：derived class 以 by value 传递，如果他被视为一个 base class，那么本身 derived class 独有的方法就会被切割掉。书中说以 by reference const 方式传递会避免这个问题？原因是什么呢？ 如果上述 FuncB(), 我传递一个 derived 的 引用，是不是也会发生切割？
