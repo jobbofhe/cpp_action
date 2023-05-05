@@ -9,6 +9,7 @@
 #include "threads/thread_test.h"
 #include "keyword/keyword_test.h"
 #include "smart_pointer/shared_ptr_impl.h"
+#include "pointer/class_slicing.h"
 
 int main() {
 	//{
@@ -35,7 +36,10 @@ int main() {
 	// {
 	//	 KeyWordTest();
 	// }
+	// {
+	// 	TestSmartPointer();
+	// }
 	{
-		TestSmartPointer();
+		SelfCheckInEqualityOperatorTest();
 	}
 }

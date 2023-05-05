@@ -24,6 +24,8 @@
     <ClInclude Include="src\move\move.h" />
     <ClInclude Include="src\move\r_value.h" />
     <ClInclude Include="src\return_value\return_value.h" />
+    <ClInclude Include="src\smart_pointer\shared_ptr_impl.h" />
+    <ClInclude Include="src\smart_pointer\smart_point.h" />
     <ClInclude Include="src\static\static_test.h" />
     <ClInclude Include="src\threads\multi_threads.h" />
     <ClInclude Include="src\vector\vector_test_base.h" />

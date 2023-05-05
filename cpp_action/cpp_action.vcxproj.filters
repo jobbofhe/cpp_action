@@ -39,6 +39,12 @@
     <ClInclude Include="src\design_pattern\singleton.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\smart_pointer\shared_ptr_impl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\smart_pointer\smart_point.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
