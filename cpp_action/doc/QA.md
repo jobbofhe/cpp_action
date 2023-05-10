@@ -615,8 +615,40 @@ A：
 后者初始化时候就同时赋值，那个内存写一次，前者初始化赋随机值，后面再次赋值，写两次。
 
 
+# 异常安全
 (20230508)
+Q:
 书中说要尽量写 “异常安全”的代码，但是我在各种帖子中看到说：使用异常，会导致性能降低，同时debug更方便（如果使用了异常，那么追踪后可能获取的是catch throw点，没意义）；
 我的问题是：
 平时写代码比较好的习惯是什么？尽量都写异常安全的代码（追求强异常安全，还是弱异常安全）？还是有所取舍？
+
+A：
+完全禁用异常。异常安全代码的意思大概就是RAII，任何资源都用栈变量或者一个堆对象hold住，不管是出异常还是出错退出，还是怎么崩了，由于stack unwind的展开，都能优雅地释放。C++的内存模型建立是不费吹灰之力的，而优雅地退出是超级难的。
+
+# local static 
+(20230509)
+Q:
+local static 是目前最好的 Singleton 写法吗？
+
+```c++
+class Singleton {
+public:
+  Singleton(const Singleton &) = delete;
+  const Singleton operator=(const Singleton&) = delete;
+
+  static Singleton& GetInstance() {
+    static Singleton instance_;
+    return instance_;
+  }
+
+private:
+  Singleton(){};
+  ~Singleton(){};
+};
+
+```
+
+A:
+是的，c++11 之后， local static 能够确保线程安全；
+
 
