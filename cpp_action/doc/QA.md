@@ -633,8 +633,8 @@ local static 是目前最好的 Singleton 写法吗？
 ```c++
 class Singleton {
 public:
-  Singleton(const Singleton &) = delete;
-  const Singleton operator=(const Singleton&) = delete;
+  Singleton(const Singleton&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
 
   static Singleton& GetInstance() {
     static Singleton instance_;
@@ -650,5 +650,11 @@ private:
 
 A:
 是的，c++11 之后， local static 能够确保线程安全；
+
+# inlining
+(20230510)
+inline 函数比普通函数更高效，那么如果存在一个class，在程序执行的时候，需要频繁的被构造和析构，那么我可以将这个 class 的构造函数和析构函数作为 inline 吗？
+inline 一般用于体积较小的函数体，这样不会造成目标程序占用空间过大，但是目前的计算机系统，memory 应该不如性能珍贵，即使 class 的构造函数占用的 memory 比较大，这样 inline 可行不？
+
 
 
